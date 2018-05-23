@@ -13,22 +13,11 @@
 # limitations under the License.
 
 ---
-# Defines deployment design and assigns role to server groups
-
-- name: deploy an opensds local cluster
-  hosts: all
-  remote_user: root
-  vars_files:
-    - group_vars/common.yml
-    - group_vars/osdsdb.yml
-    - group_vars/osdslet.yml
-    - group_vars/osdsdock.yml
-  gather_facts: false
-  become: True
-  roles:
-    - common
-    - osdsdb
-    - osdslet
-    - osdsdock
-    - nbp-installer
-    - keystone-installer
+- name: install keystone
+  shell:
+    cmd: |
+      echo "install keystone"
+      pwd
+      source /root/gopath/src/github.com/opensds/opensds/script/devsds/lib/keystone.sh
+      osds::keystone::install
+  when: opensds_auth_strategy == "keystone"
