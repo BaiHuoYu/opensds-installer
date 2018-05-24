@@ -14,10 +14,8 @@
 
 ---
 - name: install keystone
-  shell:
-    cmd: |
-      echo "install keystone"
-      pwd
-      source /root/gopath/src/github.com/opensds/opensds/script/devsds/lib/keystone.sh
-      osds::keystone::install
+  shell: "{{ item }}"
+  with_items:
+      - /root/opensds-installer/ansible/script/keystone.sh install >> /root/opensds-installer/ansible/script/InstallKeystone.log
   when: opensds_auth_strategy == "keystone"
+
