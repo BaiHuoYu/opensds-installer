@@ -13,16 +13,13 @@
 # limitations under the License.
 
 ---
-- name: install nodejs
-  shell: sudo apt-get install nodejs 
-  
-- name: install angular cli
-  shell: npm install -g @angular/cli
-  
-- name: Install Angular "node_modules"
-  shell: cd {{ dashboard_dir }}&& npm install
-  
-- name: Build OpenSDS dashboard
-  shell: ng build --prod
-  
+# Dummy variable to avoid error because ansible does not recognize the
+# file as a good configuration file when no variable in it.
+dummy:
 
+
+###########
+# GENERAL #
+###########
+
+dashboard_dir: /root/gopath/src/github.com/opensds/opensds/dashboard
