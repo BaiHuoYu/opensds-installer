@@ -13,23 +13,16 @@
 # limitations under the License.
 
 ---
-# Defines deployment design and assigns role to server groups
+- name: install nodejs
+  shell: sudo apt-get install nodejs 
+  
+- name: install angular cli
+  shell: npm install -g @angular/cli
+  
+- name: Install Angular "node_modules"
+  shell: cd {{ dashboard }}&& npm install  
+  
+- name: Build OpenSDS dashboard
+  shell: ng build --prod
+  
 
-- name: deploy an opensds local cluster
-  hosts: all
-  remote_user: root
-  vars_files:
-    - group_vars/common.yml
-    - group_vars/osdsdb.yml
-    - group_vars/osdslet.yml
-    - group_vars/osdsdock.yml
-  gather_facts: false
-  become: True
-  roles:
-    - common
-    - osdsdb
-    - osdslet
-    - osdsdock
-    - nbp-installer
-    - keystone-installer
-    - dashboard-installer

@@ -16,33 +16,6 @@
 
 # 'stack' user is just for install keystone through devstack
 
-# Keep track of the script directory
-TOP_DIR=$(cd $(dirname "$0") && pwd)
-
-# OpenSDS configuration directory
-OPENSDS_CONFIG_DIR=${OPENSDS_CONFIG_DIR:-/etc/opensds}
-
-source $TOP_DIR/util.sh
-source $TOP_DIR/sdsrc
-
-# clean up log
-:> $TOP_DIR/InstallKeystone.log
-
-case "$# $1" in
-    "1 install")
-    echo "Starting install..."
-    install
-    ;;
-    "1 uninstall")
-    echo "Starting uninstall..."
-    uninstall
-    ;;
-     *)
-    echo "The value of the parameter can only be one of the following: install/uninstall."
-    exit 1
-    ;;
-esac
-
 create_user(){
     if id ${STACK_USER_NAME} &> /dev/null; then
         return
@@ -156,3 +129,33 @@ uninstall_purge(){
     rm $STACK_HOME/* -rf
     remove_user
 }
+
+# ***************************
+
+# Keep track of the script directory
+TOP_DIR=$(cd $(dirname "$0") && pwd)
+
+# OpenSDS configuration directory
+OPENSDS_CONFIG_DIR=${OPENSDS_CONFIG_DIR:-/etc/opensds}
+
+source $TOP_DIR/util.sh
+source $TOP_DIR/sdsrc
+
+# clean up log
+:> $TOP_DIR/InstallKeystone.log
+
+case "$# $1" in
+    "1 install")
+    echo "Starting install keystone..."
+    install
+    ;;
+    "1 uninstall")
+    echo "Starting uninstall keystone..."
+    uninstall
+    ;;
+     *)
+    echo "The value of the parameter can only be one of the following: install/uninstall."
+    exit 1
+    ;;
+esac
+
