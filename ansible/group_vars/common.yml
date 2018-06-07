@@ -34,9 +34,6 @@ opensds_log_dir: /var/log/opensds
 # opensds authentication strategy, support 'noauth', 'keystone'.
 opensds_auth_strategy: noauth
 
-
-opensds_installer_dir: /root/opensds-installer
-
 ##############
 # REPOSITORY #
 ##############

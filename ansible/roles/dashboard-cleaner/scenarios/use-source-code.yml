@@ -41,8 +41,8 @@
 - name: check go_path
   shell: "{{ item }}"
   with_items:
-      - echo "The environment variable GOPATH must be set and cannot be an empty string!"
-      - /bin/false
+    - echo "The environment variable GOPATH must be set and cannot be an empty string!"
+    - /bin/false
   when: go_path == ""
   
 - name: remove {{ go_path }}/src/github.com/opensds/opensds/dashboard/dist
@@ -54,7 +54,7 @@
 - name: npm uninstall
   shell: "{{ item }}"
   with_items:
-      - npm uninstall
+    - npm uninstall
   args:
     chdir: "{{ go_path }}/src/github.com/opensds/opensds/dashboard"
   become: yes
@@ -66,8 +66,8 @@
 - name: uninstall nodejs
   shell:  "{{ item }}"
   with_items:
-      - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - 
-      - apt --purge remove nodejs -y
+    - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - 
+    - apt --purge remove nodejs -y
   become: yes
 
 - name: uninstall nginx

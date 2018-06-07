@@ -50,11 +50,11 @@
     state: directory
     mode: 0755
 
-- name: include scenarios/repository.yml when installing from container
+- name: include scenarios/repository.yml when installing from repository
   include: scenarios/repository.yml
   when: install_from == "repository"
 
-- name: include scenarios/release.yml when installing from container
+- name: include scenarios/release.yml when installing from release
   include: scenarios/release.yml
   when: install_from == "release"
 

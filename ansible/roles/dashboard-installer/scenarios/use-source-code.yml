@@ -20,8 +20,8 @@
 - name: install nodejs
   shell:  "{{ item }}"
   with_items:
-      - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - 
-      - apt install -y nodejs
+    - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - 
+    - apt install -y nodejs
   become: yes
   
 - name: install angular CLI
@@ -41,8 +41,8 @@
 - name: check go_path
   shell: "{{ item }}"
   with_items:
-      - echo "The environment variable GOPATH must be set and cannot be an empty string!"
-      - /bin/false
+    - echo "The environment variable GOPATH must be set and cannot be an empty string!"
+    - /bin/false
   when: go_path == ""
   
 - name: check for opensds source code existed
@@ -66,8 +66,8 @@
 - name: build opensds dashboard
   shell: "{{ item }}"
   with_items:
-      - npm install
-      - ng build --prod
+    - npm install
+    - ng build --prod
   args:
     chdir: "{{ go_path }}/src/github.com/opensds/opensds/dashboard"
   become: yes

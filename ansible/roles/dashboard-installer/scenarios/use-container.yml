@@ -19,7 +19,7 @@
     image: opensdsio/dashboard:latest
     state: started
     ports:
-     - "81:80"
+     - "81:8080"
     command: nginx -g "daemon off;"
     privileged: true
     restart_policy: always
