@@ -17,19 +17,14 @@
   service:
     name: nginx
     state: stopped
+  ignore_errors: yes
 
 - set_fact:
     go_path: "{{ lookup('env', 'GOPATH') }}"
 
-- name: check go_path
-  shell: "{{ item }}"
-  with_items:
-      - echo "The environment variable GOPATH must be set and cannot be an empty string!"
-      - /bin/false
-  when: go_path == ""
-  
 - name: clean some installed packages that were installed with dashborad
   shell: make clean
   args:
     chdir: "{{ go_path }}/src/github.com/opensds/opensds/dashboard"
   become: yes
+  ignore_errors: yes

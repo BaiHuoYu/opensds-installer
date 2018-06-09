@@ -56,7 +56,6 @@
   args:
     chdir: "{{ go_path }}/src/github.com/opensds/opensds/dashboard"
   become: yes
-  when: dashboardexisted
   when: dashboardexisted.stat.isdir is defined and dashboardexisted.stat.isdir
     
 - name: set nginx default config
