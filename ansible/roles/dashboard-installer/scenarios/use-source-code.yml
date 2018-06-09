@@ -38,16 +38,16 @@
 
 - name: check for opensds dashboard source code existed
   stat:
-    path: "{{ go_path }}/src/github.com/opensds/dashboard"
+    path: "{{ go_path }}/src/github.com/opensds/opensds/dashboard"
   register: dashboardexisted
   
 - name: exit installation if opensds dashboard does not exist
   shell: "{{ item }}"
   with_items:
-    - echo "{{ go_path }}/src/github.com/opensds/dashboard does not exist"
+    - echo "{{ go_path }}/src/github.com/opensds/opensds/dashboard does not exist"
     - /bin/false
   when:
-    - dashboardexisted.stat.exists is undefined or dashboardexisted.stat.exists == false
+    - dashboardexisted.stat.isdir is undefined or dashboardexisted.stat.isdir == false
     
 - name: build opensds dashboard
   shell: "{{ item }}"
@@ -57,6 +57,7 @@
     chdir: "{{ go_path }}/src/github.com/opensds/opensds/dashboard"
   become: yes
   when: dashboardexisted
+  when: dashboardexisted.stat.isdir is defined and dashboardexisted.stat.isdir
     
 - name: set nginx default config
   become: yes
