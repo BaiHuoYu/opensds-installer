@@ -87,7 +87,8 @@
     graceful = True
     log_file = {{ controller_log_file }}
     socket_order = inc
-
+    auth_strategy = {{ opensds_auth_strategy }}
+    
     [osdsdock]
     api_endpoint = {{ dock_endpoint }}
     log_file = {{ dock_log_file }}
