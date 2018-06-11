@@ -17,6 +17,9 @@
   file:
     path: ./script
     mode: 0755
+    recurse: yes
+  ignore_errors: yes
+  become: yes
 
 - name: uninstall keystone
   shell: "{{ item }}"

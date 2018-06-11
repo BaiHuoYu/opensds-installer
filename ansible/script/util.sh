@@ -18,6 +18,12 @@ sortable_date() {
   date "+%Y%m%d-%H%M%S"
 }
 
+# Echo text to the log file, summary log file and stdout
+# echo_summary "something to say"
+echo_summary {
+    echo -e $@ >&6
+}
+
 wait_for_url() {
   local url=$1
   local prefix=${2:-}
