@@ -21,7 +21,7 @@ sortable_date() {
 # Echo text to the log file, summary log file and stdout
 # echo_summary "something to say"
 function echo_summary {
-    echo -e $@ >&6
+    echo -e $@
 }
 
 wait_for_url() {
@@ -114,7 +114,7 @@ err() {
     xtrace=$(set +o | grep xtrace)
     set +o xtrace
     local msg="[ERROR] ${BASH_SOURCE[2]}:$1 $2"
-    echo $msg 1>&2;
+    echo $msg
     $xtrace
     return $exitcode
 }
