@@ -20,7 +20,7 @@ sortable_date() {
 
 # Echo text to the log file, summary log file and stdout
 # echo_summary "something to say"
-echo_summary {
+function echo_summary {
     echo -e $@ >&6
 }
 
