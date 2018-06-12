@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+TOP_DIR=$(cd $(dirname "$0") && pwd)
 source "$TOP_DIR/util.sh"
 source "$TOP_DIR/sdsrc"
 

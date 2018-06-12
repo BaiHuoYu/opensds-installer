@@ -145,8 +145,6 @@ uninstall_purge(){
 }
 
 # ***************************
-
-# Keep track of the script directory
 TOP_DIR=$(cd $(dirname "$0") && pwd)
 
 # OpenSDS configuration directory
