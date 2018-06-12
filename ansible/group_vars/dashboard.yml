@@ -23,8 +23,8 @@ dummy:
 ###########
 
 # Dashboard installation types are: 'container', 'source_code'
-dashboard_installation_type: source_code
-
+# If it is set to any other value, dashboard will not be installed
+dashboard_installation_type: null
 
 ###########
 # DOCKER  #
