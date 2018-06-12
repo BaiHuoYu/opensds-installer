@@ -28,9 +28,9 @@
   become: True
   roles:
     - common
+    - keystone-installer
     - osdsdb
     - osdslet
     - osdsdock
     - nbp-installer
-    - keystone-installer
     - dashboard-installer
