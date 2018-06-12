@@ -124,7 +124,7 @@ install(){
     fi
     devstack_local_conf
     cd "${DEV_STACK_DIR}"
-    su "$STACK_USER_NAME" -c ${DEV_STACK_DIR}/stack.sh >/dev/null
+    su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/stack.sh" >/dev/null
     create_user_and_endpoint
     delete_redundancy_data
 }
@@ -138,7 +138,7 @@ uninstall(){
 }
 
 uninstall_purge(){
-    rm "$STACK_HOME/*" -rf
+    rm "${STACK_HOME:?'STACK_HOME must be defined and cannot be empty'}/*" -rf
     remove_user
 }
 
