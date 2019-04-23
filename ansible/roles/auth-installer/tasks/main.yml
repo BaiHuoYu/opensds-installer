@@ -13,16 +13,17 @@
 # limitations under the License.
 
 ---
-- name: export USE_CONTAINER_KEYSTONE
-  shell: "{{ item }}"
-  with_items:
-    - export USE_CONTAINER_KEYSTONE=true
-  when: use_container_keystone == true
-  become: yes
-  
-- name: install keystone
+
+- name: Install keystone with a script
   shell: "{{ item }}"
   with_items:
     - bash ./script/keystone.sh install
-  when: opensds_auth_strategy == "keystone"
+  when: opensds_auth_strategy == "keystone" && use_container_keystone != true
+  become: yes
+  
+- name: Install keystone with docker
+  shell: "{{ item }}"
+  with_items:
+    - bash ./script/keystone.sh install container
+  when: opensds_auth_strategy == "keystone" && use_container_keystone == true
   become: yes

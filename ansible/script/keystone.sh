@@ -148,7 +148,7 @@ download_code(){
 }
 
 install(){
-    if [ "true" == $USE_CONTAINER_KEYSTONE ] 
+    if [ -n "$1" ]
     then
         docker pull opensdsio/opensds-authchecker:latest
         docker run -d --privileged=true --net=host --name=opensds-authchecker opensdsio/opensds-authchecker:latest
@@ -169,8 +169,16 @@ install(){
 }
 
 uninstall(){
-    su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/clean.sh" >/dev/null
-    su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/unstack.sh" >/dev/null
+    if [ -n "$1" ]
+    then
+        docker ps -a|grep keystone|awk '{print $1 }'|xargs docker stop
+        docker ps -a|grep keystone|awk '{print $1 }'|xargs docker rm
+        docker network rm opensds-authchecker-network
+    else
+       su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/clean.sh" >/dev/null
+       su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/unstack.sh" >/dev/null
+    fi
+    
 }
 
 uninstall_purge() {
@@ -204,11 +212,11 @@ source "$TOP_DIR/sdsrc"
 case "$# $1" in
     "1 install")
     echo "Starting install keystone..."
-    install
+    install $2
     ;;
     "1 uninstall")
     echo "Starting uninstall keystone..."
-    uninstall
+    uninstall $2
     ;;
     "2 config")
     [[ X$2 != Xhotpot && X$2 != Xgelato ]] && echo "config type must be hotpot or gelato" && exit 1
