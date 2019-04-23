@@ -13,6 +13,13 @@
 # limitations under the License.
 
 ---
+- name: export USE_CONTAINER_KEYSTONE
+  shell: "{{ item }}"
+  with_items:
+    - export USE_CONTAINER_KEYSTONE=true
+  when: use_container_keystone == true
+  become: yes
+  
 - name: install keystone
   shell: "{{ item }}"
   with_items:

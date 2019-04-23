@@ -148,17 +148,24 @@ download_code(){
 }
 
 install(){
-    create_user
-    download_code
-    # If keystone is ready to start, there is no need continue next step.
-    if wait_for_url "http://$HOST_IP/identity" "keystone" 0.25 4; then
-        return
+    if [ "true" == $USE_CONTAINER_KEYSTONE ] 
+    then
+        docker pull opensdsio/opensds-authchecker:latest
+        docker run -d --privileged=true --net=host --name=opensds-authchecker opensdsio/opensds-authchecker:latest
+        docker "$TOP_DIR/../../conf/keystone.policy.json" opensds-authchecker:/etc/keystone/policy.json
+    else
+        create_user
+        download_code
+        # If keystone is ready to start, there is no need continue next step.
+        if wait_for_url "http://$HOST_IP/identity" "keystone" 0.25 4; then
+            return
+        fi
+        devstack_local_conf
+        cd "${DEV_STACK_DIR}"
+        su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/stack.sh" >/dev/null
+        delete_redundancy_data
+        cp "$TOP_DIR/../../conf/keystone.policy.json" "${KEYSTONE_CONFIG_DIR}/policy.json"
     fi
-    devstack_local_conf
-    cd "${DEV_STACK_DIR}"
-    su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/stack.sh" >/dev/null
-    delete_redundancy_data
-    cp "$TOP_DIR/../../conf/keystone.policy.json" "${KEYSTONE_CONFIG_DIR}/policy.json"
 }
 
 uninstall(){
