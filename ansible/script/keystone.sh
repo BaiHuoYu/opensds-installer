@@ -152,7 +152,7 @@ install(){
     then
         docker pull opensdsio/opensds-authchecker:latest
         docker run -d --privileged=true --net=host --name=opensds-authchecker opensdsio/opensds-authchecker:latest
-        docker "$TOP_DIR/../../conf/keystone.policy.json" opensds-authchecker:/etc/keystone/policy.json
+        docker cp "$TOP_DIR/../../conf/keystone.policy.json" opensds-authchecker:/etc/keystone/policy.json
     else
         create_user
         download_code
