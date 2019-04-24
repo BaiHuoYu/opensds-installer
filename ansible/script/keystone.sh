@@ -171,8 +171,8 @@ install(){
 uninstall(){
     if [ "docker" == "$1" ]
     then
-        docker ps -a|grep keystone|awk '{print $1 }'|xargs docker stop
-        docker ps -a|grep keystone|awk '{print $1 }'|xargs docker rm
+        docker ps -a|grep opensds-authchecker|awk '{print $1 }'|xargs docker stop
+        docker ps -a|grep opensds-authchecker|awk '{print $1 }'|xargs docker rm
     else
        su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/clean.sh" >/dev/null
        su "$STACK_USER_NAME" -c "${DEV_STACK_DIR}/unstack.sh" >/dev/null
