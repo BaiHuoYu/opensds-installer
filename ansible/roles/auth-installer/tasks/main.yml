@@ -18,12 +18,12 @@
   shell: "{{ item }}"
   with_items:
     - bash ./script/keystone.sh install
-  when: opensds_auth_strategy == "keystone" && use_container_keystone != true
+  when: opensds_auth_strategy == "keystone" and use_container_keystone != true
   become: yes
   
 - name: Install keystone with docker
   shell: "{{ item }}"
   with_items:
     - bash ./script/keystone.sh install container
-  when: opensds_auth_strategy == "keystone" && use_container_keystone == true
+  when: opensds_auth_strategy == "keystone" and use_container_keystone == true
   become: yes
