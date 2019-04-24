@@ -26,7 +26,7 @@ dummy:
 opensds_auth_strategy: keystone
 
 # Install keystone using docker
-use_container_keystone: true
+install_keystone_with_docker: true
 
 # The URL should be replaced with the keystone actual URL
 keystone_os_auth_url: "http://{{ host_ip }}/identity"

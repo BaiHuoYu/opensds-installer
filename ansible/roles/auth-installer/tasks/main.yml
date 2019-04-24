@@ -14,16 +14,16 @@
 
 ---
 
-- name: Install keystone with a script
+- name: Install keystone with the script
   shell: "{{ item }}"
   with_items:
-    - bash ./script/keystone.sh install
-  when: opensds_auth_strategy == "keystone" and use_container_keystone != true
+    - bash ./script/keystone.sh install script
+  when: opensds_auth_strategy == "keystone" and install_keystone_with_docker != true
   become: yes
   
-- name: Install keystone with docker
+- name: Install keystone with the docker
   shell: "{{ item }}"
   with_items:
-    - bash ./script/keystone.sh install container
-  when: opensds_auth_strategy == "keystone" and use_container_keystone == true
+    - bash ./script/keystone.sh install docker
+  when: opensds_auth_strategy == "keystone" and install_keystone_with_docker == true
   become: yes

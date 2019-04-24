@@ -148,7 +148,7 @@ download_code(){
 }
 
 install(){
-    if [ -n "$1" ]
+    if [ "docker" == "$1" ]
     then
         docker pull opensdsio/opensds-authchecker:latest
         docker run -d --privileged=true --net=host --name=opensds-authchecker opensdsio/opensds-authchecker:latest
@@ -169,7 +169,7 @@ install(){
 }
 
 uninstall(){
-    if [ -n "$1" ]
+    if [ "docker" == "$1" ]
     then
         docker ps -a|grep keystone|awk '{print $1 }'|xargs docker stop
         docker ps -a|grep keystone|awk '{print $1 }'|xargs docker rm
@@ -210,11 +210,11 @@ source "$TOP_DIR/util.sh"
 source "$TOP_DIR/sdsrc"
 
 case "$# $1" in
-    "1 install")
+    "2 install")
     echo "Starting install keystone..."
     install $2
     ;;
-    "1 uninstall")
+    "2 uninstall")
     echo "Starting uninstall keystone..."
     uninstall $2
     ;;
