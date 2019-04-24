@@ -188,12 +188,16 @@ uninstall_purge() {
 
 config_hotpot() {
     hotpot_conf
-    create_user_and_endpoint_for_hotpot
+    if [ "docker" != "$1" ] ;then
+        create_user_and_endpoint_for_hotpot
+    fi
 }
 
 config_gelato() {
     gelato_conf
-    create_user_and_endpoint_for_gelato
+    if [ "docker" != "$1" ] ;then
+        create_user_and_endpoint_for_gelato
+    fi
 }
 
 # ***************************
@@ -218,10 +222,10 @@ case "$# $1" in
     echo "Starting uninstall keystone..."
     uninstall $2
     ;;
-    "2 config")
+    "3 config")
     [[ X$2 != Xhotpot && X$2 != Xgelato ]] && echo "config type must be hotpot or gelato" && exit 1
     echo "Starting config $2 ..."
-    config_$2
+    config_$2 $3
     ;;
     "1 uninstall_purge")
     echo "Starting uninstall purge keystone..."
