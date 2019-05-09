@@ -39,11 +39,17 @@
     - rm -rf prometheus-2.9.2.linux-amd64.tar.gz prometheus-2.9.2.linux-amd64
   become: yes
   
-- name: configuring prometheus
+- name: Create a prometheus configuration file
   shell: "{{ item }}"
   with_items:
     - sudo nano /etc/prometheus/prometheus.yml
-    - cat >> /etc/prometheus/prometheus.yml <<OPENSDS_GLOABL_CONFIG_DOC
+    - sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
+  become: yes
+  
+- name: configuring prometheus
+  shell: |
+    cat >> /etc/prometheus/prometheus.yml <<OPENSDS_GLOABL_CONFIG_DOC
+
     global:
       scrape_interval: 15s
     ​
@@ -52,14 +58,18 @@
         scrape_interval: 5s
         static_configs:
           - targets: ['localhost:9090']
-    - sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
-  become: yes
+   become: yes
   
-- name: running prometheus
+- name: Create prometheus.service
   shell: "{{ item }}"
   with_items:
-    - nano /etc/systemd/system/prometheus.service
-    - cat >> /etc/systemd/system/prometheus.service <<OPENSDS_GLOABL_CONFIG_DOC
+    - nano /etc/systemd/system/prometheus.service 
+  become: yes
+
+- name: configuring prometheus.service
+  shell: |
+    cat >> /etc/systemd/system/prometheus.service <<OPENSDS_GLOABL_CONFIG_DOC
+
     [Unit]
     Description=Prometheus
     Wants=network-online.target
@@ -77,6 +87,13 @@
     ​
     [Install]
     WantedBy=multi-user.target
+    - systemctl daemon-reload
+    - systemctl start prometheus
+   become: yes
+
+- name: running prometheus
+  shell: "{{ item }}"
+  with_items:
     - systemctl daemon-reload
     - systemctl start prometheus
   become: yes
