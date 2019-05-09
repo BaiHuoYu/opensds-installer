@@ -39,13 +39,6 @@
     - rm -rf prometheus-2.9.2.linux-amd64.tar.gz prometheus-2.9.2.linux-amd64
   become: yes
   
-- name: Create a prometheus configuration file
-  shell: "{{ item }}"
-  with_items:
-    - sudo nano /etc/prometheus/prometheus.yml
-    - sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
-  become: yes
-  
 - name: configuring prometheus
   shell: |
     cat >> /etc/prometheus/prometheus.yml <<OPENSDS_GLOABL_CONFIG_DOC
@@ -60,12 +53,12 @@
           - targets: ['localhost:9090']
   become: yes
   
-- name: Create prometheus.service
+- name: modify the permissions of the prometheus.yml
   shell: "{{ item }}"
-  with_items:
-    - nano /etc/systemd/system/prometheus.service 
+  with_items:   
+    - sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
   become: yes
-
+  
 - name: configuring prometheus.service
   shell: |
     cat >> /etc/systemd/system/prometheus.service <<OPENSDS_GLOABL_CONFIG_DOC
