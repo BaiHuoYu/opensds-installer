@@ -58,7 +58,7 @@
         scrape_interval: 5s
         static_configs:
           - targets: ['localhost:9090']
-   become: yes
+  become: yes
   
 - name: Create prometheus.service
   shell: "{{ item }}"
@@ -89,7 +89,7 @@
     WantedBy=multi-user.target
     - systemctl daemon-reload
     - systemctl start prometheus
-   become: yes
+  become: yes
 
 - name: running prometheus
   shell: "{{ item }}"
