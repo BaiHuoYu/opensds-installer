@@ -42,7 +42,6 @@
 - name: configuring prometheus
   shell: |
     cat >> /etc/prometheus/prometheus.yml <<OPENSDS_GLOABL_CONFIG_DOC
-
     global:
       scrape_interval: 15s
     ​
@@ -62,7 +61,6 @@
 - name: configuring prometheus.service
   shell: |
     cat >> /etc/systemd/system/prometheus.service <<OPENSDS_GLOABL_CONFIG_DOC
-
     [Unit]
     Description=Prometheus
     Wants=network-online.target
@@ -80,8 +78,6 @@
     ​
     [Install]
     WantedBy=multi-user.target
-    - systemctl daemon-reload
-    - systemctl start prometheus
   become: yes
 
 - name: running prometheus

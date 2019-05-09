@@ -24,6 +24,8 @@
     - rm -rf /usr/local/bin/promtool
     - rm -rf /usr/local/bin/prometheus
     - rm -rf /var/lib/prometheus
+    - userdel -r prometheus
+    - userdel -r node_exporter
   ignore_errors: yes
   become: yes
   
