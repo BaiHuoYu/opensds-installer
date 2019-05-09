@@ -25,3 +25,9 @@
     - systemctl start grafana-server
   become: yes
   
+- name: check status of grafana service
+  shell: "{{ item }}"
+  with_items:
+    - systemctl status grafana-server
+  become: yes
+  
