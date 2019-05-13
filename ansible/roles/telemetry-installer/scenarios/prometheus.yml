@@ -17,7 +17,6 @@
   shell: "{{ item }}"
   with_items:
     - useradd --no-create-home --shell /bin/false prometheus
-    - useradd --no-create-home --shell /bin/false node_exporter
     - mkdir /etc/prometheus
     - mkdir /var/lib/prometheus
     - chown prometheus:prometheus /etc/prometheus

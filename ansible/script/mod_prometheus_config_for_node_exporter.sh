@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright (c) 2019 The OpenSDS Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
----
-- name: include scenarios/grafana.yml
-  include: scenarios/grafana.yml
-
-- name: include scenarios/prometheus.yml
-  include: scenarios/prometheus.yml
-
-- name: include scenarios/node_exporter.yml
-  include: scenarios/node_exporter.yml
+cat >> /etc/prometheus/prometheus.yml <<EOF
+  - job_name: 'node_exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9100']
+EOF

@@ -18,3 +18,6 @@
 
 - name: include scenarios/prometheus.yml
   include: scenarios/prometheus.yml
+
+- name: include scenarios/node_exporter.yml
+  include: scenarios/node_exporter.yml
