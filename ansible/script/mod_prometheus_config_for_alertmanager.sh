@@ -15,9 +15,9 @@
 # limitations under the License.
 
 cat >> /etc/prometheus/prometheus.yml <<EOF
+
 alerting:
   alertmanagers:
   - static_configs:
-    - targets: 
-      -alertmanager1:9093
+    - targets: ['localhost:9093']
 EOF
