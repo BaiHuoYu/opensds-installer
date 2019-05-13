@@ -21,12 +21,11 @@
     - cp alertmanager-0.16.2.linux-amd64/alertmanager /usr/local/bin/
     - mkdir -p /etc/alertmanager
     - cp alertmanager-0.16.2.linux-amd64/alertmanager.yml /etc/alertmanager
-    - alertmanager --config.file=/etc/alertmanager/alertmanager.yaml
     - useradd --no-create-home --shell /bin/false alertmanager
     - chown alertmanager:alertmanager /etc/alertmanager
     - chown alertmanager:alertmanager /usr/local/bin/alertmanager
     - chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yaml
-    - alertmanager --config.file=/etc/alertmanager/alertmanager.yaml
+    - alertmanager --config.file=/etc/alertmanager/alertmanager.yml
   become: yes
 
 - name: configuring prometheus to scrape alertmanager
