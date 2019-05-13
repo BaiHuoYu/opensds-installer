@@ -13,18 +13,12 @@
 # limitations under the License.
 
 ---
-- name: include scenarios/grafana.yml
-  include: scenarios/grafana.yml
-
-- name: include scenarios/prometheus.yml
-  include: scenarios/prometheus.yml
-
-- name: include scenarios/node_exporter.yml
-  include: scenarios/node_exporter.yml
-
-- name: include scenarios/pushgateway.yml
-  include: scenarios/pushgateway.yml
-  
-- name: include scenarios/alertmanager.yml
-  include: scenarios/alertmanager.yml
-
+- name: uninstall alertmanager
+  shell: "{{ item }}"
+  with_items:
+    - killall alertmanager  
+    - rm -rf /usr/local/bin/alertmanager
+    - rm -rf /etc/alertmanager
+    - userdel -r alertmanager
+  ignore_errors: yes
+  become: yes

@@ -1,0 +1,45 @@
+# Copyright (c) 2019 The OpenSDS Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+- name: download pushgateway
+  shell: "{{ item }}"
+  with_items:
+    - curl -LO https://github.com/prometheus/pushgateway/releases/download/v0.8.0/pushgateway-0.8.0.linux-amd64.tar.gz
+    - tar xvf pushgateway-0.8.0.linux-amd64.tar.gz
+    - cp xvf pushgateway-0.8.0.linux-amd64/pushgateway /usr/local/bin/
+    - useradd --no-create-home --shell /bin/false pushgateway
+    - chown pushgateway:pushgateway /usr/local/bin/pushgateway
+  become: yes
+
+- name: edit pushgateway.service
+  shell: "{{ item }}"
+  with_items:
+    - bash ./script/set_pushgateway_service.sh
+  become: yes
+
+- name: start pushgateway
+  shell: "{{ item }}"
+  with_items:
+    - systemctl daemon-reload
+    - systemctl start pushgateway
+  become: yes
+
+- name: check status of pushgateway service
+  shell: "{{ item }}"
+  with_items:
+    - systemctl status pushgateway
+  become: yes
+
+

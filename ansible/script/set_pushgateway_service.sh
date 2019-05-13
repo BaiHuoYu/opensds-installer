@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright (c) 2019 The OpenSDS Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,19 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
----
-- name: include scenarios/grafana.yml
-  include: scenarios/grafana.yml
+cat > /etc/systemd/system/pushgateway.service <<EOF
+[Unit]
+Description=Prometheus Push Gateway
+Wants=network-online.target
+After=network-online.target
 
-- name: include scenarios/prometheus.yml
-  include: scenarios/prometheus.yml
+[Service]
+User=pushgateway
+Group=pushgateway
+Type=simple
+ExecStart=/usr/local/bin/pushgateway
 
-- name: include scenarios/node_exporter.yml
-  include: scenarios/node_exporter.yml
+[Install]
+WantedBy=multi-user.target
 
-- name: include scenarios/pushgateway.yml
-  include: scenarios/pushgateway.yml
-  
-- name: include scenarios/alertmanager.yml
-  include: scenarios/alertmanager.yml
-
+EOF

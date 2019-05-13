@@ -21,3 +21,9 @@
 
 - name: include scenarios/node_exporter.yml
   include: scenarios/node_exporter.yml
+
+- name: include scenarios/pushgateway.yml
+  include: scenarios/pushgateway.yml
+
+- name: include scenarios/alertmanager.yml
+  include: scenarios/alertmanager.yml

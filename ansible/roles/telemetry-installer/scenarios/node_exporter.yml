@@ -36,20 +36,27 @@
     - systemctl start node_exporter
   become: yes
 
+- name: check status of node_exporter service
+  shell: "{{ item }}"
+  with_items:
+    - systemctl status node_exporter
+  become: yes
+  
 - name: configuring prometheus to scrape node_exporter
   shell: "{{ item }}"
   with_items:
     - bash ./script/mod_prometheus_config_for_node_exporter.sh
   become: yes
 
-- name: restart node_exporter
+- name: restart prometheus
   shell: "{{ item }}"
   with_items:
-    - systemctl restart node_exporter
+    - systemctl restart prometheus
   become: yes
 
-- name: check status of node_exporter service
+- name: check status of prometheus service
   shell: "{{ item }}"
   with_items:
-    - systemctl status node_exporter
+    - systemctl status prometheus
   become: yes
+
