@@ -25,6 +25,7 @@
     - chown alertmanager:alertmanager /etc/alertmanager
     - chown alertmanager:alertmanager /usr/local/bin/alertmanager
     - chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
+    - rm -rf alertmanager-0.16.2.linux-amd64.tar.gz alertmanager-0.16.2.linux-amd64
   become: yes
 
 - name: run alertmanager
