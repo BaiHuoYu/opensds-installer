@@ -25,8 +25,20 @@
     - chown alertmanager:alertmanager /etc/alertmanager
     - chown alertmanager:alertmanager /usr/local/bin/alertmanager
     - chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
-    - alertmanager --config.file=/etc/alertmanager/alertmanager.yml
   become: yes
+
+- name: run alertmanager
+  shell:
+    cmd: |
+      i=0
+      while
+        i="$((i+1))"
+        [ "$i" -lt 4 ]
+      do
+        nohup alertmanager --config.file=/etc/alertmanager/alertmanager.yml &
+        sleep 5
+        ps aux | grep alertmanager | grep -v grep && break
+      done
 
 - name: configuring prometheus to scrape alertmanager
   shell: "{{ item }}"
