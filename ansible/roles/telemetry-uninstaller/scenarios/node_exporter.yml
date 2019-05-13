@@ -19,5 +19,6 @@
     - systemctl stop node_exporter
     - rm -rf /etc/systemd/system/node_exporter.service
     - rm -rf /usr/local/bin/node_exporter
+    - userdel -r node_exporter
   ignore_errors: yes
   become: yes
