@@ -19,7 +19,8 @@
     - curl -LO https://github.com/prometheus/alertmanager/releases/download/v0.16.2/alertmanager-0.16.2.linux-amd64.tar.gz
     - tar xvf alertmanager-0.16.2.linux-amd64.tar.gz
     - cp alertmanager-0.16.2.linux-amd64/alertmanager /usr/local/bin/
-    - cp alertmanager-0.16.2.linux-amd64/alertmanager.yaml /etc/alertmanager
+    - mkdir -p /etc/alertmanager
+    - cp alertmanager-0.16.2.linux-amd64/alertmanager.yml /etc/alertmanager
     - alertmanager --config.file=/etc/alertmanager/alertmanager.yaml
     - useradd --no-create-home --shell /bin/false alertmanager
     - chown alertmanager:alertmanager /etc/alertmanager
