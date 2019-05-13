@@ -13,11 +13,11 @@
 # limitations under the License.
 
 ---
-- name: include scenarios/grafana.yml
-  include: scenarios/grafana.yml
-
-- name: include scenarios/prometheus.yml
-  include: scenarios/prometheus.yml
-
-- name: include scenarios/node_exporter.yml
-  include: scenarios/node_exporter.yml
+- name: uninstall prometheus
+  shell: "{{ item }}"
+  with_items:
+    - systemctl stop node_exporter
+    - rm -rf /etc/systemd/system/node_exporter.service
+    - rm -rf /usr/local/bin/node_exporter
+  ignore_errors: yes
+  become: yes
