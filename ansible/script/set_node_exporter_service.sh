@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright (c) 2019 The OpenSDS Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
----
-- name: include scenarios/grafana.yml
-  include: scenarios/grafana.yml
+cat > /etc/systemd/system/node_exporter.service <<EOF
+[Unit]
+Description=Node Exporter
+Wants=network-online.target
+After=network-online.target
 
-- name: include scenarios/prometheus.yml
-  include: scenarios/prometheus.yml
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
 
-- name: include scenarios/node_exporter.yml
-  include: scenarios/node_exporter.yml
+[Install]
+WantedBy=multi-user.target
+
+EOF
