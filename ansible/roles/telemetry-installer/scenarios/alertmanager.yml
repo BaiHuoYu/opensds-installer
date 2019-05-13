@@ -24,7 +24,7 @@
     - useradd --no-create-home --shell /bin/false alertmanager
     - chown alertmanager:alertmanager /etc/alertmanager
     - chown alertmanager:alertmanager /usr/local/bin/alertmanager
-    - chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yaml
+    - chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
     - alertmanager --config.file=/etc/alertmanager/alertmanager.yml
   become: yes
 
