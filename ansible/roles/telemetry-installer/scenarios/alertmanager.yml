@@ -40,6 +40,7 @@
         sleep 5
         ps aux | grep alertmanager | grep -v grep && break
       done
+  become: yes
 
 - name: configuring prometheus to scrape alertmanager
   shell: "{{ item }}"
