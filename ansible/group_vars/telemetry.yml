@@ -13,19 +13,17 @@
 # limitations under the License.
 
 ---
-- name: install grafana
-  shell: "{{ item }}"
-  with_items:
-    - curl https://packagecloud.io/gpg.key | apt-key add -
-    - add-apt-repository "deb https://packagecloud.io/grafana/stable/debian/ stretch main"
-    - apt-get update
-    - curl -s https://packagecloud.io/install/repositories/grafana/stable/script.deb.sh |bash
-    - apt-get install -y grafana
-    - systemctl start grafana-server
-  become: yes
-  
-- name: check status of grafana service
-  shell: "{{ item }}"
-  with_items:
-    - systemctl status grafana-server
-  become: yes
+# Dummy variable to avoid error because ansible does not recognize the
+# file as a good configuration file when no variable in it.
+dummy:
+
+
+###########
+# GENERAL #
+###########
+
+# Do you need to install telemetry tools?
+install_telemetry_tools: true
+
+# Do you need to clean telemetry tools before installing?
+clean_telemetry_tools: true

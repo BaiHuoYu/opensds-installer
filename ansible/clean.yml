@@ -32,13 +32,3 @@
   tasks:
     - import_role:
         name: cleaner
-    
-- name: uninstall tools for telemetry
-  hosts: controllers
-  remote_user: root
-  gather_facts: false
-  become: True
-  tasks:
-    - import_role:
-        name: telemetry-uninstaller
-
