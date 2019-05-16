@@ -193,7 +193,7 @@
   with_items:
     - curl https://packagecloud.io/gpg.key | apt-key add -
     - add-apt-repository "deb https://packagecloud.io/grafana/stable/debian/ stretch main"
-    - apt update
+    - apt-get update
     - curl -s https://packagecloud.io/install/repositories/grafana/stable/script.deb.sh |bash
     - apt install -y grafana
     - systemctl start grafana-server
