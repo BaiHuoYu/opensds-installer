@@ -23,7 +23,7 @@
     - chown prometheus:prometheus /etc/prometheus
     - chown prometheus:prometheus /var/lib/prometheus
   become: yes
-  
+
 - name: download and install prometheus
   shell: "{{ item }}"
   with_items:
@@ -37,14 +37,14 @@
     - chown -R prometheus:prometheus /etc/prometheus/console_libraries
     - rm -rf prometheus-2.9.2.linux-amd64.tar.gz prometheus-2.9.2.linux-amd64
   become: yes
-  
+
 - name: configuring prometheus
   shell: "{{ item }}"
   with_items:
     - bash ./script/set_prometheus_config.sh
     - chown prometheus:prometheus /etc/prometheus/prometheus.yml
   become: yes
-  
+
 - name: running prometheus
   shell: "{{ item }}"
   with_items:
@@ -52,7 +52,7 @@
     - systemctl daemon-reload
     - systemctl start prometheus
   become: yes
-  
+
 - name: check status of prometheus service
   shell: "{{ item }}"
   with_items:
@@ -89,7 +89,7 @@
   with_items:
     - systemctl status node_exporter
   become: yes
-  
+
 - name: configuring prometheus to scrape node_exporter
   shell: "{{ item }}"
   with_items:
@@ -140,34 +140,51 @@
   become: yes
 
 # ---------start to install alertmanager---------
-- name: download pushgateway
+- name: download alertmanager
   shell: "{{ item }}"
   with_items:
-    - curl -LO https://github.com/prometheus/pushgateway/releases/download/v0.8.0/pushgateway-0.8.0.linux-amd64.tar.gz
-    - tar xvf pushgateway-0.8.0.linux-amd64.tar.gz
-    - cp pushgateway-0.8.0.linux-amd64/pushgateway /usr/local/bin/
-    - useradd --no-create-home --shell /bin/false pushgateway
-    - chown pushgateway:pushgateway /usr/local/bin/pushgateway
-    - rm -rf pushgateway-0.8.0.linux-amd64.tar.gz pushgateway-0.8.0.linux-amd64
+    - curl -LO https://github.com/prometheus/alertmanager/releases/download/v0.16.2/alertmanager-0.16.2.linux-amd64.tar.gz
+    - tar xvf alertmanager-0.16.2.linux-amd64.tar.gz
+    - cp alertmanager-0.16.2.linux-amd64/alertmanager /usr/local/bin/
+    - mkdir -p /etc/alertmanager
+    - cp alertmanager-0.16.2.linux-amd64/alertmanager.yml /etc/alertmanager
+    - useradd --no-create-home --shell /bin/false alertmanager
+    - chown alertmanager:alertmanager /etc/alertmanager
+    - chown alertmanager:alertmanager /usr/local/bin/alertmanager
+    - chown alertmanager:alertmanager /etc/alertmanager/alertmanager.yml
+    - rm -rf alertmanager-0.16.2.linux-amd64.tar.gz alertmanager-0.16.2.linux-amd64
   become: yes
 
-- name: edit pushgateway.service
-  shell: "{{ item }}"
-  with_items:
-    - bash ./script/set_pushgateway_service.sh
+- name: run alertmanager
+  shell:
+    cmd: |
+      i=0
+      while
+        i="$((i+1))"
+        [ "$i" -lt 4 ]
+      do
+        nohup alertmanager --config.file=/etc/alertmanager/alertmanager.yml > alertmanager.out 2> alertmanager.err < /dev/null &
+        sleep 5
+        ps aux | grep alertmanager | grep -v grep && echo "Successfully running alertmanager!" && break
+      done
   become: yes
 
-- name: start pushgateway
+- name: configuring prometheus to scrape alertmanager
   shell: "{{ item }}"
   with_items:
-    - systemctl daemon-reload
-    - systemctl start pushgateway
+    - bash ./script/mod_prometheus_config_for_alertmanager.sh
   become: yes
 
-- name: check status of pushgateway service
+- name: restart prometheus
   shell: "{{ item }}"
   with_items:
-    - systemctl status pushgateway
+    - systemctl restart prometheus
+  become: yes
+
+- name: check status of prometheus service
+  shell: "{{ item }}"
+  with_items:
+    - systemctl status prometheus
   become: yes
 
 # ---------start to install grafana---------
@@ -176,9 +193,9 @@
   with_items:
     - curl https://packagecloud.io/gpg.key | apt-key add -
     - add-apt-repository "deb https://packagecloud.io/grafana/stable/debian/ stretch main"
-    - apt-get update
+    - apt update
     - curl -s https://packagecloud.io/install/repositories/grafana/stable/script.deb.sh |bash
-    - apt-get install -y grafana
+    - apt install -y grafana
     - systemctl start grafana-server
   become: yes
   
