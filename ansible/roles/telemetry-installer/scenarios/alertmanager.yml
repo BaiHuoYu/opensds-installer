@@ -36,9 +36,9 @@
         i="$((i+1))"
         [ "$i" -lt 4 ]
       do
-        nohup alertmanager --config.file=/etc/alertmanager/alertmanager.yml &
+        nohup alertmanager --config.file=/etc/alertmanager/alertmanager.yml > alertmanager.out 2> alertmanager.err < /dev/null &
         sleep 5
-        ps aux | grep alertmanager | grep -v grep && break
+        ps aux | grep alertmanager | grep -v grep && echo "Successfully running alertmanager!" && break
       done
   become: yes
 
