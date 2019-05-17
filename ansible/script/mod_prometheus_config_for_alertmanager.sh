@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright (c) 2019 The OpenSDS Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
----
-# Defines some clean processes when banishing the cluster.
+cat >> /etc/prometheus/prometheus.yml <<EOF
 
-- name: destory an opensds cluster
-  hosts: all
-  remote_user: root
-  vars_files:
-    - group_vars/common.yml
-    - group_vars/auth.yml
-    - group_vars/hotpot.yml
-    - group_vars/osdsdb.yml
-    - group_vars/osdsdock.yml
-    - group_vars/gelato.yml
-    - group_vars/sushi.yml
-    - group_vars/dashboard.yml
-  gather_facts: false
-  become: True
-  tasks:
-    - import_role:
-        name: cleaner
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ['localhost:9093']
+EOF

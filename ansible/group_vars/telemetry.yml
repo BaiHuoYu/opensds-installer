@@ -13,8 +13,16 @@
 # limitations under the License.
 
 ---
-- name: include scenarios/grafana.yml
-  include: scenarios/grafana.yml
+# Dummy variable to avoid error because ansible does not recognize the
+# file as a good configuration file when no variable in it.
+dummy:
 
-- name: include scenarios/prometheus.yml
-  include: scenarios/prometheus.yml
+###########
+# GENERAL #
+###########
+
+# Do you need to install telemetry tools?
+install_telemetry_tools: true
+
+# Do you need to clean telemetry tools before installing?
+clean_telemetry_tools: true
